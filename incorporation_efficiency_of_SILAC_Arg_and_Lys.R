@@ -5,7 +5,7 @@
 ### This script is licensed under the BSD 3-Clause License
 ### Contact: Manikhandan.Mudaliar@glasgow.ac.uk
 ### Glasgow Polyomics, University of Glasgow, Glasgow G61 1QH UK
-### If you are using this script, please cite https://github.com/Bioinfo1/assorted_R_scripts/incorporation_efficiency_of_SILAC_Arg_and_Lys.R in your work (e.g. References section in your publication or thesis)
+### If you are using this script, please cite https://github.com/Bioinfo1/assorted_R_scripts/blob/master/incorporation_efficiency_of_SILAC_Arg_and_Lys.R in your work (e.g. References section in your publication or thesis)
 ### There has been an increasing number of requests from postdocs and PhD students for analysing SILAC incorporation efficiency, and I hope this script will help them to perform the analysis themselves. Consequently, I have  kept the analysis script simple and tried to explain the background in clear terms.    
 
 ### Usage on a Linux/Mac terminal: ### R --no-save < incorporation_efficiency_of_SILAC_Arg_and_Lys.R > incorporation_efficiency_of_SILAC_Arg_and_Lys.log 2>&1
