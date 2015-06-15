@@ -99,28 +99,28 @@ nrow(lysine_pep);
 lysine_pep <- lysine_pep[lysine_pep$R.Count == 0, ]; ### Filter exclude arginine containing peptides in the peptides with lysine
 nrow(lysine_pep);
 
-## 6. Compute kernel density estimates for arginine and lysine peptides
-df <- density(1 - 1 / (quant_peptides$Ratio.H.L + 1));
-eff <- df$x[which.max(df$y)];
+## 6. Estimate the density for the heavy labelled peptides (all heavy labelled pepetides, heavy arginine peptides and heavy lysine peptides)
+df <- density(1 - 1 / (quant_peptides$Ratio.H.L + 1));  ### Density for all heavy labelled peptides
+df_max <- df$x[which.max(df$y)]; ### Instead of maximum, you can use mean 
 
 df_arginine <- density(1 - 1 / (arginine_pep$Ratio.H.L + 1));
-eff_arginine <- df_arginine$x[which.max(df_arginine$y)];
+df_max_arginine <- df_arginine$x[which.max(df_arginine$y)];
 
 df_lysine <- density(1 - 1 / (lysine_pep$Ratio.H.L + 1));
-eff_lysine <- df_lysine$x[which.max(df_lysine$y)];
+df_max_lysine <- df_lysine$x[which.max(df_lysine$y)];
 
-all_pep <- paste("All peptides: ", round(eff * 100, 2), "%");
-arg_pep <- paste("Isotopic Arginine : ", round(eff_arginine * 100, 2), "%")
-lys_pep <- paste("Isotopic Lysine : ", round(eff_lysine * 100, 2), "%");
+all_pep <- paste("All heavy peptides: ", round(df_max * 100, 2), "%");
+arg_pep <- paste("Heavy Arginine : ", round(df_max_arginine * 100, 2), "%")
+lys_pep <- paste("Heavy Lysine : ", round(df_max_lysine * 100, 2), "%");
 
-## 7. Plot incorporation efficiency
+## 7. Plot density estimation of SILAC label incorporation. Examine the Bandwidth (width) for each of the isotope lables - Narrow the width the better.
 xmin <- min(c(min(df$x), min(df_arginine$x), min(df_arginine$x))); ### Calculate plot axis limits from density estimates
 xmax <- max(c(max(df$x), max(df_arginine$x), max(df_arginine$x)));
 ymax <- max(c(max(df$y), max(df_arginine$y), max(df_arginine$y)));
 
 postscript(paste(analysisName, "_silac_incorporation_efficiency.eps", sep = ""), width = 10, height = 7, paper="a4", onefile = FALSE, family = "Helvetica", title = "", bg = "transparent", fg = "black", horizontal = FALSE, pointsize = 12, pagecentre = TRUE, print.it = FALSE, colormodel = "cmyk"); ### Save the plot in .eps format. Generally, all journals accept this file format, and this vector graphics is readable in Adobe Illustrator and Inkscape 
 
-plot(density(1 - 1 / (quant_peptides$Ratio.H.L + 1)), xlim = c((xmin - 0.1), (xmax + 0.1)), col = "black", ylab = expression("Density  Function"), ylim = c(0, (ymax + 2)), main = "SILAC label incorporation", lwd = 2);
+plot(density(1 - 1 / (quant_peptides$Ratio.H.L + 1)), xlim = c((xmin - 0.1), (xmax + 0.1)), col = "black", ylab = expression("Density  Function"), ylim = c(0, (ymax + 2)), main = "Density estimation of SILAC label incorporation", lwd = 2);
 lines(density(1 - 1 / (arginine_pep$Ratio.H.L + 1)), lwd = 2, col = "red");
 lines(density(1 - 1 / (lysine_pep$Ratio.H.L + 1)), lwd = 2, col = "green");
 legend(x = "topleft", c(all_pep, arg_pep, lys_pep), col = c("black", "red", "green"), lwd = 2);
